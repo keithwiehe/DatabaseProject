@@ -1,6 +1,6 @@
 <!-- source:https://www.tutorialrepublic.com/php-tutorial/php-mysql-login-system.php  -->
 <?php
- 
+ session_start();
  // Include config file
 require_once "config.php";
  
@@ -8,9 +8,68 @@ require_once "config.php";
 
 // Define variables and initialize with empty values
 $username = $password = $userid = "";
-// $username_err = $password_err = "";
+
+// //Processing form data when form is submitted
+// if($_SERVER["REQUEST_METHOD"] == "POST"){
+
+//   // Prepare a select statement
+//   $query = "SELECT USERID 
+//             FROM USER 
+//             WHERE username = '$username'";
+//   $result = mysqli_query($link, $query);
+//   if(mysqli_stmt_num_rows($stmt) != 0){
+//       $username_err = "This username is already taken.";
+//   } else{
+//     $username = trim($_POST["username"]);
+//   }
+//   } 
+// else{
+// echo "Oops! Something went wrong. Please try again later.";
+// }
+
+// // Validate password
+// if(empty(trim($_POST["password"]))){
+//   $password_err = "Please enter a password.";     
+// } elseif(strlen(trim($_POST["password"])) < 6){
+//   $password_err = "Password must have atleast 6 characters.";
+// } else{
+//   $password = trim($_POST["password"]);
+// }
+
+// // Check input errors before inserting in database
+// if(empty($username_err) && empty($password_err)){
+  
+//   // Prepare an insert statement
+//   $sql = "INSERT INTO USER (USERNAME, PASSWORD) VALUES ('$username', '$password')";//should be good
+   
+//   if($stmt = mysqli_prepare($link, $sql)){
+//       // Bind variables to the prepared statement as parameters
+//       mysqli_stmt_bind_param($stmt, "ss", $param_username, $param_password);
+      
+//       // Set parameters
+//       $param_username = $username;
+//       $param_password = password_hash($password, PASSWORD_DEFAULT); // Creates a password hash
+      
+//       // Attempt to execute the prepared statement
+//       if(mysqli_stmt_execute($stmt)){
+//           // Redirect user to welcome page
+//           echo "Should have added to database";
+//           header("location: home.php");
+//       } else{
+//           echo "Oops! Something went wrong. Please try again later.";
+//       }
+
+//       // Close statement
+//       mysqli_stmt_close($stmt);
+//   }
+
+// // Close connection
+// mysqli_close($link);
+// }
+
+$username_err = $password_err = "";
  
-// Processing form data when form is submitted
+// //Processing form data when form is submitted
 // if($_SERVER["REQUEST_METHOD"] == "POST"){
  
 //     // Validate username
@@ -18,9 +77,11 @@ $username = $password = $userid = "";
 //         $username_err = "Please enter a username.";
 //     } else{
 //         // Prepare a select statement
-//         $sql = "SELECT USERID FROM USER WHERE username = ?";
+//         $query = "SELECT USERID 
+//                 FROM USER 
+//                 WHERE username = '$username'";
         
-//         if($stmt = mysqli_prepare($link, $sql)){
+//         if($stmt = mysqli_prepare($link, $query)){
 //             // Bind variables to the prepared statement as parameters
 //             mysqli_stmt_bind_param($stmt, "s", $param_username);
             
@@ -49,8 +110,8 @@ $username = $password = $userid = "";
 //     // Validate password
 //     if(empty(trim($_POST["password"]))){
 //         $password_err = "Please enter a password.";     
-//     } elseif(strlen(trim($_POST["password"])) < 6){
-//         $password_err = "Password must have atleast 6 characters.";
+//     } elseif(strlen(trim($_POST["password"])) < 4){
+//         $password_err = "Password must have atleast 4 characters.";
 //     } else{
 //         $password = trim($_POST["password"]);
 //     }
@@ -59,9 +120,10 @@ $username = $password = $userid = "";
 //     if(empty($username_err) && empty($password_err)){
         
 //         // Prepare an insert statement
-//         $sql = "INSERT INTO USER (USERNAME, PASSWORD) VALUES ('$username', '$password')";//should be good
+//         $query = "INSERT INTO USER (USERNAME, PASSWORD) 
+//                 VALUES ('$username', '$password')";//should be good
          
-//         if($stmt = mysqli_prepare($link, $sql)){
+//         if($stmt = mysqli_prepare($link, $query)){
 //             // Bind variables to the prepared statement as parameters
 //             mysqli_stmt_bind_param($stmt, "ss", $param_username, $param_password);
             
@@ -72,7 +134,10 @@ $username = $password = $userid = "";
 //             // Attempt to execute the prepared statement
 //             if(mysqli_stmt_execute($stmt)){
 //                 // Redirect user to welcome page
-//                 echo "Should have added to database";
+//                 // echo "Should have added to database";
+//                 $_SESSION["loggedin"] = true;
+//                 $_SESSION["id"] = $row['USERID'];
+//                 $_SESSION["username"] = $username;
 //                 header("location: home.php");
 //             } else{
 //                 echo "Oops! Something went wrong. Please try again later.";
@@ -99,6 +164,9 @@ $username = $password = $userid = "";
             $query = "INSERT INTO USER (USERNAME, PASSWORD) VALUES ('$username', '$password')";//should be good
             
             mysqli_query($link, $query);//upload query
+                $_SESSION["loggedin"] = true;
+                $_SESSION["id"] = $row['USERID'];
+                $_SESSION["username"] = $username;
             header("Location: home.php");
             die;
         }
