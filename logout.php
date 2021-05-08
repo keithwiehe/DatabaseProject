@@ -1,6 +1,8 @@
 <?php
   session_start();
   unset($_SESSION['username']);
-  session_destroy(); // Destroying All Sessions
+  $_SESSION['loggedin'] = false;
+  $_SESSION["id"] = "";
+  $_SESSION["username"] ="";      
   header("Location: login.php"); // Redirecting To Home Page
 ?> 

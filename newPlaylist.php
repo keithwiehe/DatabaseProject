@@ -4,11 +4,17 @@ session_start();
 // Include config file
 require_once "config.php";
 $id = $_SESSION["id"]; //$_SESSION['id'];
-$_SESSION["loggedin"] = true;
+
 $username = "test";//$_SESSION['username'];
 $playlist_err = $playlist = "";
 $value = $playlistid = 0;
 $nameExists = false;
+
+if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === false){
+  header("location: login.php");
+  
+  exit;
+}
 
 $result = mysqli_query($link, "SELECT DISTINCT SONGNAME, ALBUM, ARTIST, SONGID
                                 FROM SONG
@@ -37,7 +43,7 @@ $result = mysqli_query($link, "SELECT DISTINCT SONGNAME, ALBUM, ARTIST, SONGID
         foreach($_POST['checkItem'] as $i)
         {
           $query = mysqli_query($link, "INSERT INTO PLAYLIST (PLAYLISTID, LISTNAME, USERID, SONGID)
-                              VALUES ('$playlistid', '$playlist', '$id', '$i' )");
+                              VALUES ('$playlistid', '$playlist', '$id', '$i')");
         }
       }
       header("Location: home.php");

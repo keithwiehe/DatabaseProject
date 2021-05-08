@@ -4,7 +4,13 @@ session_start();
 // Include config file
 require_once "config.php";
 $id = $_SESSION["id"]; //$_SESSION['id'];
-$_SESSION["loggedin"] = true;
+if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === false){
+  header("location: login.php");
+  
+  exit;
+} else {
+  echo 'checked';
+}
 $username = $_SESSION['username'];
 $result = mysqli_query($link, "SELECT DISTINCT PLAYLISTID, LISTNAME, PLAYLIST.SONGID, SONGNAME, ALBUM, ARTIST
                                 FROM PLAYLIST, SONG
