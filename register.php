@@ -161,7 +161,8 @@ $username_err = $password_err = "";
         {
             return;
         } else{
-            $query = "INSERT INTO USER (USERNAME, PASSWORD) VALUES ('$username', '$password')";//should be good
+            $query = "INSERT INTO USER (USERNAME, PASSWORD) 
+                      VALUES ('$username', '$password')";//should be good
             
             mysqli_query($link, $query);//upload query
                 $_SESSION["loggedin"] = true;
