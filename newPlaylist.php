@@ -5,7 +5,7 @@ session_start();
 require_once "config.php";
 $id = $_SESSION["id"]; //$_SESSION['id'];
 
-$username = "test";//$_SESSION['username'];
+$username = $_SESSION['username'];
 $playlist_err = $playlist = "";
 $value = $playlistid = 0;
 $nameExists = false;
